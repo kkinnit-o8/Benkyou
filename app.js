@@ -1,3 +1,12 @@
+import {
+  addDocument,
+  deleteDocument,
+  updateDocument,
+  getDocument,
+  getAllDocuments,
+  queryDocuments,
+} from "./utils.js"
+
 let currentTab = 'practice';
 let cardShown = false;
 let currentFilter = 'all';
@@ -130,6 +139,7 @@ if (!title.trim() || !description.trim()) {
 // Collect all cards
 const cardItems = document.querySelectorAll('.card-item');
 const cards = [];
+console.log(cards)
 
 cardItems.forEach(item => {
     const front = item.querySelector('input[name="cardFront"]').value.trim();
@@ -150,7 +160,6 @@ const deckData = {
     title,
     description,
     category,
-    level,
     cards
 };
 
