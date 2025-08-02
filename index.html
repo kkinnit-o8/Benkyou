@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benkyou - Practice Japanese</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">Benkyou</a>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showTab('practice')">Practice</a></li>
+                <li><a href="#" onclick="showTab('browse')">Browse Decks</a></li>
+                <li><a href="#" onclick="showTab('create')">Create Deck</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="hero">
+            <h1>Practice Japanese</h1>
+            <p>Study with flashcards</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('practice')">Practice</button>
+            <button class="tab-btn" onclick="showTab('browse')">Browse Decks</button>
+            <button class="tab-btn" onclick="showTab('create')">Create Deck</button>
+        </div>
+
+        <!-- Practice Tab -->
+        <div id="practice" class="tab-content active">
+            <div class="practice-card">
+                <div class="card-content" id="cardContent">
+                    おぼえる
+                </div>
+                <div id="cardTranslation" style="display: none; font-size: 1.2rem; color: #666; margin-bottom: 2rem;">
+                    to remember
+                </div>
+                <button class="show-btn" id="showBtn" onclick="toggleCard()">Show</button>
+            </div>
+
+            <div class="search-section">
+                <h3 style="margin-bottom: 1rem;">Your Saved Decks</h3>
+                <div class="deck-grid">
+                    <div class="deck-card" onclick="selectDeck('basic-verbs')">
+                        <div class="deck-title">Basic Verbs</div>
+                        <div class="deck-description">Essential Japanese verbs for beginners</div>
+                        <div class="deck-stats">
+                            <span>25 cards</span>
+                            <span>⭐ 4.8</span>
+                        </div>
+                    </div>
+                    <div class="deck-card" onclick="selectDeck('kanji')">
+                        <div class="deck-title">Kanji</div>
+                        <div class="deck-description">Basic kanji characters and meanings</div>
+                        <div class="deck-stats">
+                            <span>50 cards</span>
+                            <span>⭐ 4.6</span>
+                        </div>
+                    </div>
+                    <div class="deck-card" onclick="selectDeck('expressions')">
+                        <div class="deck-title">Expressions</div>
+                        <div class="deck-description">Common Japanese expressions and phrases</div>
+                        <div class="deck-stats">
+                            <span>30 cards</span>
+                            <span>⭐ 4.9</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Browse Decks Tab -->
+        <div id="browse" class="tab-content">
+            <div class="search-section">
+                <input type="text" class="search-bar" placeholder="Search for decks..." id="searchInput" oninput="searchDecks()">
+                <div class="filters">
+                    <button class="filter-btn active" onclick="filterDecks('all')">All</button>
+                    <button class="filter-btn" onclick="filterDecks('beginner')">Beginner</button>
+                    <button class="filter-btn" onclick="filterDecks('intermediate')">Intermediate</button>
+                    <button class="filter-btn" onclick="filterDecks('advanced')">Advanced</button>
+                    <button class="filter-btn" onclick="filterDecks('kanji')">Kanji</button>
+                    <button class="filter-btn" onclick="filterDecks('vocabulary')">Vocabulary</button>
+                    <button class="filter-btn" onclick="filterDecks('grammar')">Grammar</button>
+                </div>
+            </div>
+
+            <div class="deck-grid" id="deckGrid">
+                <div class="deck-card" data-category="beginner vocabulary">
+                    <div class="deck-title">Basic Verbs</div>
+                    <div class="deck-description">Essential Japanese verbs for beginners</div>
+                    <div class="deck-stats">
+                        <span>25 cards</span>
+                        <span>⭐ 4.8</span>
+                    </div>
+                </div>
+                <div class="deck-card" data-category="beginner kanji">
+                    <div class="deck-title">JLPT N5 Kanji</div>
+                    <div class="deck-description">Basic kanji characters for N5 level</div>
+                    <div class="deck-stats">
+                        <span>80 cards</span>
+                        <span>⭐ 4.7</span>
+                    </div>
+                </div>
+                <div class="deck-card" data-category="beginner vocabulary">
+                    <div class="deck-title">Daily Expressions</div>
+                    <div class="deck-description">Common phrases used in daily conversation</div>
+                    <div class="deck-stats">
+                        <span>40 cards</span>
+                        <span>⭐ 4.9</span>
+                    </div>
+                </div>
+                <div class="deck-card" data-category="intermediate vocabulary">
+                    <div class="deck-title">Business Japanese</div>
+                    <div class="deck-description">Professional vocabulary and keigo expressions</div>
+                    <div class="deck-stats">
+                        <span>60 cards</span>
+                        <span>⭐ 4.5</span>
+                    </div>
+                </div>
+                <div class="deck-card" data-category="intermediate kanji">
+                    <div class="deck-title">JLPT N4 Kanji</div>
+                    <div class="deck-description">Intermediate kanji for N4 level</div>
+                    <div class="deck-stats">
+                        <span>120 cards</span>
+                        <span>⭐ 4.6</span>
+                    </div>
+                </div>
+                <div class="deck-card" data-category="advanced grammar">
+                    <div class="deck-title">Advanced Grammar Patterns</div>
+                    <div class="deck-description">Complex grammar structures for advanced learners</div>
+                    <div class="deck-stats">
+                        <span>45 cards</span>
+                        <span>⭐ 4.4</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Deck Tab -->
+        <div id="create" class="tab-content">
+            <div class="create-section">
+                <h2 style="margin-bottom: 2rem; color: #333;">Create New Deck</h2>
+                
+                <form id="createDeckForm">
+                    <div class="form-group">
+                        <label for="deckTitle">Deck Title</label>
+                        <input type="text" id="deckTitle" name="deckTitle" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deckDescription">Description</label>
+                        <textarea id="deckDescription" name="deckDescription" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deckCategory">Category</label>
+                        <select id="deckCategory" name="deckCategory" style="width: 100%; padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                            <option value="vocabulary">Vocabulary</option>
+                            <option value="kanji">Kanji</option>
+                            <option value="grammar">Grammar</option>
+                            <option value="expressions">Expressions</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deckLevel">Difficulty Level</label>
+                        <select id="deckLevel" name="deckLevel" style="width: 100%; padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                </form>
+
+                <div class="cards-section">
+                    <div class="cards-header">
+                        <h3>Flashcards</h3>
+                        <button class="add-card-btn" onclick="addCard()">+ Add Card</button>
+                    </div>
+                    
+                    <div id="cardsContainer">
+                        <div class="card-item">
+                            <div class="card-inputs">
+                                <input type="text" class="card-input" placeholder="Front (Japanese)" name="cardFront">
+                                <input type="text" class="card-input" placeholder="Back (Translation)" name="cardBack">
+                                <button type="button" class="remove-card-btn" onclick="removeCard(this)">×</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" class="publish-btn" onclick="publishDeck()">Publish Deck</button>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
