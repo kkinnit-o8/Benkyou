@@ -1,20 +1,15 @@
-// firebaseUtils.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    getDocs, 
+    deleteDoc, 
+    doc, 
+    onSnapshot,
+    updateDoc 
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
-import { initializeApp } from "firebase/app";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  deleteDoc,
-  doc,
-  updateDoc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
-
-// TODO: Replace with your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyC5UE5lNlpdiLS1j2aHvxGEpvK12t1TTFs",
   authDomain: "benkyou-9ece6.firebaseapp.com",
@@ -25,89 +20,58 @@ const firebaseConfig = {
   measurementId: "G-MKVVFB9ZCY"
 };
 
-// Initialize Firebase app and Firestore
+// 🔄 Initialiser Firebase og Firestore
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-/**
- * Add a document to a collection
- * @param {string} collectionName - Firestore collection name
- * @param {object} data - Document data object
- * @returns {Promise<string>} - Returns the new document ID
- */
-export async function addDocument(collectionName, data) {
-  const colRef = collection(db, collectionName);
-  const docRef = await addDoc(colRef, data);
-  return docRef.id;
+// 📥 Hent alle dokumenter fra valgt samling
+async function hentDokumenter(samling) {
+    try {
+        const snapshot = await getDocs(collection(db, samling));
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (error) {
+        console.error("Feil ved henting:", error);
+        return [];
+    }
 }
 
-/**
- * Delete a document from a collection by id
- * @param {string} collectionName
- * @param {string} docId
- */
-export async function deleteDocument(collectionName, docId) {
-  const docRef = doc(db, collectionName, docId);
-  await deleteDoc(docRef);
+// ➕ Legg til nytt dokument i valgt samling
+async function leggTilDokument(samling, data) {
+    try {
+        await addDoc(collection(db, samling), data);
+        console.log("Dokument lagt til.");
+    } catch (error) {
+        console.error("Feil ved lagring:", error);
+    }
+}
+// ❌ Slett dokument fra samling
+async function slettDokument(samling, id) {
+    try {
+        await deleteDoc(doc(db, samling, id));
+        console.log("Dokument slettet.");
+    } catch (error) {
+        console.error("Feil ved sletting:", error);
+    }
 }
 
-/**
- * Update a document by id with new data
- * @param {string} collectionName
- * @param {string} docId
- * @param {object} newData
- */
-export async function updateDocument(collectionName, docId, newData) {
-  const docRef = doc(db, collectionName, docId);
-  await updateDoc(docRef, newData);
+// 🔁 Vis alle dokumenter og oppdater automatisk ved endringer
+function visDokumenterLive(samling, visningsfunksjon) {
+    onSnapshot(collection(db, samling), (snapshot) => {
+        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        visningsfunksjon(data);
+    });
 }
 
-/**
- * Get a single document by id
- * @param {string} collectionName
- * @param {string} docId
- * @returns {Promise<object|null>} - Returns document data or null if not found
- */
-export async function getDocument(collectionName, docId) {
-  const docRef = doc(db, collectionName, docId);
-  const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
-    return { id: docSnap.id, ...docSnap.data() };
-  } else {
-    return null;
+async function oppdaterDokument(samling, id, data) {
+    const docRef = doc(db, samling, id);
+    await updateDoc(docRef, data);
   }
-}
+  
 
-/**
- * Get all documents in a collection
- * @param {string} collectionName
- * @returns {Promise<Array<object>>} - Returns array of documents with id included
- */
-export async function getAllDocuments(collectionName) {
-  const colRef = collection(db, collectionName);
-  const snapshot = await getDocs(colRef);
-  const docs = [];
-  snapshot.forEach(doc => {
-    docs.push({ id: doc.id, ...doc.data() });
-  });
-  return docs;
-}
-
-/**
- * Query documents with where condition
- * @param {string} collectionName
- * @param {string} field - field name to query
- * @param {string} operator - e.g. "==", "<", ">"
- * @param {any} value - value to compare with
- * @returns {Promise<Array<object>>}
- */
-export async function queryDocuments(collectionName, field, operator, value) {
-  const colRef = collection(db, collectionName);
-  const q = query(colRef, where(field, operator, value));
-  const snapshot = await getDocs(q);
-  const results = [];
-  snapshot.forEach(doc => {
-    results.push({ id: doc.id, ...doc.data() });
-  });
-  return results;
-}
+export {
+    hentDokumenter,
+    leggTilDokument,
+    slettDokument,
+    visDokumenterLive,
+    oppdaterDokument
+};
