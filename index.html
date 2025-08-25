@@ -3,200 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benkyou - Practice Japanese</title>
+    <title>Benkyou</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <a href="#" class="logo">Benkyou</a>
-            <ul class="nav-links">
-                <li><a href="#">Practice</a></li>
-                <li><a href="#">Browse Decks</a></li>
-                <li><a href="#">Create Deck</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main class="container">
-        <div class="hero">
-            <h1>Practice Japanese</h1>
-            <p>Study with flashcards</p>
+    <nav>
+        <div class="logo">
+            Benkyou
         </div>
+        <ul>
+            <li><a href="#decks">Browse decks</a></li>
+            <li><a href="#add-deck">Make deck</a></li>
+        </ul>
+    </nav>  
+    
+    <div>
+        <h1>Welcome to Benkyou</h1>
+        <div class="random-card">
 
-        <div class="tabs">
-            <button class="tab-btn active">Practice</button>
-            <button class="tab-btn">Browse Decks</button>
-            <button class="tab-btn">Create Deck</button>
         </div>
+    </div>
 
-        <!-- Practice Tab -->
-        <div id="practice" class="tab-content active">
-            <div class="practice-card">
-                <div class="card-content" id="cardContent">
-                    おぼえる
+    <div class="main">
+        <h2>Decks</h2>
+        <div id="decks">
+            <div class="deck">
+                <h3 class="title">Deck 1</h3>
+                <p class="description">this is the discription</p>
+                <div>
+                    <p>categorie: vocab</p>
+                    <p>cards: 50</p>
                 </div>
-                <div id="cardTranslation" style="display: none; font-size: 1.2rem; color: #666; margin-bottom: 2rem;">
-                    to remember
-                </div>
-                <button class="show-btn" id="showBtn">Show</button>
-            </div>
-
-            <div class="search-section">
-                <h3 style="margin-bottom: 1rem;">Your Saved Decks</h3>
-                <div class="deck-grid">
-                    <div class="deck-card">
-                        <div class="deck-title">Basic Verbs</div>
-                        <div class="deck-description">Essential Japanese verbs for beginners</div>
-                        <div class="deck-stats">
-                            <span>25 cards</span>
-                            <span>⭐ 4.8</span>
-                        </div>
-                    </div>
-                    <div class="deck-card">
-                        <div class="deck-title">Kanji</div>
-                        <div class="deck-description">Basic kanji characters and meanings</div>
-                        <div class="deck-stats">
-                            <span>50 cards</span>
-                            <span>⭐ 4.6</span>
-                        </div>
-                    </div>
-                    <div class="deck-card">
-                        <div class="deck-title">Expressions</div>
-                        <div class="deck-description">Common Japanese expressions and phrases</div>
-                        <div class="deck-stats">
-                            <span>30 cards</span>
-                            <span>⭐ 4.9</span>
-                        </div>
-                    </div>
-                </div>
+                <div>
+                    <button class="start">Start</button>
+                    <button class="edit">Edit</button>
+                    <button class="delete">Delete</button>
+                </div>  
             </div>
         </div>
+        <button class="add_deck" id="add_deck">Add deck</button>
 
-        <!-- Browse Decks Tab -->
-        <div id="browse" class="tab-content">
-            <div class="search-section">
-                <input type="text" class="search-bar" placeholder="Search for decks..." id="searchInput">
-                <div class="filters">
-                    <button class="filter-btn active">All</button>
-                    <button class="filter-btn">Beginner</button>
-                    <button class="filter-btn">Intermediate</button>
-                    <button class="filter-btn">Advanced</button>
-                    <button class="filter-btn">Kanji</button>
-                    <button class="filter-btn">Vocabulary</button>
-                    <button class="filter-btn">Grammar</button>
+        <div id="deck_window">
+            <h2>Add a new card</h2>
+            <input type="text" placeholder="Deck name" class="deck_title" id="deck_title">
+            <textarea placeholder="Description" class="deck_description" id="deck_description"></textarea>
+            <input type="text" placeholder="Category" class="deck_category" id="deck_category">
+            <h3>add cards:</h3>
+            <div class="container">
+                <input type="text" placeholder="Front" class="card_front" id="card_front">
+                <input type="text" placeholder="Back" class="card_back" id="card_back">
+            </div>
+            <button class="add_card" id="add_card">Add card</button>
+            <div class="cards" id="cards">
+                <div class="card-item">
+                    <p class="front">Front</p>
+                    <p class="back">Back</p>
+                    <button class="delete_card">Delete</button>
                 </div>
             </div>
-
-            <div class="deck-grid" id="deckGrid">
-                <div class="deck-card" data-category="beginner vocabulary">
-                    <div class="deck-title">Basic Verbs</div>
-                    <div class="deck-description">Essential Japanese verbs for beginners</div>
-                    <div class="deck-stats">
-                        <span>25 cards</span>
-                        <span>⭐ 4.8</span>
-                    </div>
-                </div>
-                <div class="deck-card" data-category="beginner kanji">
-                    <div class="deck-title">JLPT N5 Kanji</div>
-                    <div class="deck-description">Basic kanji characters for N5 level</div>
-                    <div class="deck-stats">
-                        <span>80 cards</span>
-                        <span>⭐ 4.7</span>
-                    </div>
-                </div>
-                <div class="deck-card" data-category="beginner vocabulary">
-                    <div class="deck-title">Daily Expressions</div>
-                    <div class="deck-description">Common phrases used in daily conversation</div>
-                    <div class="deck-stats">
-                        <span>40 cards</span>
-                        <span>⭐ 4.9</span>
-                    </div>
-                </div>
-                <div class="deck-card" data-category="intermediate vocabulary">
-                    <div class="deck-title">Business Japanese</div>
-                    <div class="deck-description">Professional vocabulary and keigo expressions</div>
-                    <div class="deck-stats">
-                        <span>60 cards</span>
-                        <span>⭐ 4.5</span>
-                    </div>
-                </div>
-                <div class="deck-card" data-category="intermediate kanji">
-                    <div class="deck-title">JLPT N4 Kanji</div>
-                    <div class="deck-description">Intermediate kanji for N4 level</div>
-                    <div class="deck-stats">
-                        <span>120 cards</span>
-                        <span>⭐ 4.6</span>
-                    </div>
-                </div>
-                <div class="deck-card" data-category="advanced grammar">
-                    <div class="deck-title">Advanced Grammar Patterns</div>
-                    <div class="deck-description">Complex grammar structures for advanced learners</div>
-                    <div class="deck-stats">
-                        <span>45 cards</span>
-                        <span>⭐ 4.4</span>
-                    </div>
-                </div>
-            </div>
+            <button class="publish_deck" id="publish_deck">Publish Deck</button>
         </div>
 
-        <!-- Create Deck Tab -->
-        <div id="create" class="tab-content">
-            <div class="create-section">
-                <h2 style="margin-bottom: 2rem; color: #333;">Create New Deck</h2>
-                
-                <form id="createDeckForm">
-                    <div class="form-group">
-                        <label for="deckTitle">Deck Title</label>
-                        <input type="text" id="deckTitle" name="deckTitle" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="deckDescription">Description</label>
-                        <textarea id="deckDescription" name="deckDescription" required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="deckCategory">Category</label>
-                        <select id="deckCategory" name="deckCategory" style="width: 100%; padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
-                            <option value="vocabulary">Vocabulary</option>
-                            <option value="kanji">Kanji</option>
-                            <option value="grammar">Grammar</option>
-                            <option value="expressions">Expressions</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="deckLevel">Difficulty Level</label>
-                        <select id="deckLevel" name="deckLevel" style="width: 100%; padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
-                            <option value="beginner">Beginner</option>
-                            <option value="intermediate">Intermediate</option>
-                            <option value="advanced">Advanced</option>
-                        </select>
-                    </div>
-                </form>
-
-                <div class="cards-section">
-                    <div class="cards-header">
-                        <h3>Flashcards</h3>
-                        <button class="add-card-btn">+ Add Card</button>
-                    </div>
-                    
-                    <div id="cardsContainer">
-                        <div class="card-item">
-                            <div class="card-inputs">
-                                <input type="text" class="card-input" placeholder="Front (Japanese)" name="cardFront">
-                                <input type="text" class="card-input" placeholder="Back (Translation)" name="cardBack">
-                                <button type="button" class="remove-card-btn">×</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <button type="button" class="publish-btn">Publish Deck</button>
-            </div>
-        </div>
-    </main>
-    <script src="app.js" type="module"></script>
+        <script src="app.js" type="module"></script>
 </body>
 </html>
